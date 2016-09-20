@@ -35,7 +35,7 @@ class TestConfigurationLinux: TestConfigurationProtocol {
         // Tests that involve NSSet inside NSDictionary are disabled due to
         //     issue https://bugs.swift.org/browse/SR-2486
         //TODO: return true once the issue is resolved
-        return false
+        return true
     }
     var numberFormatterTestsEnabled: Bool {
         // Tests that involve NumberFormatter.string(for:) ar disabled due to

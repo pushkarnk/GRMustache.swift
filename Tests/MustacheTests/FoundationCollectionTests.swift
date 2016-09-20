@@ -90,8 +90,6 @@ class FoundationCollectionTests: XCTestCase {
             let object = NSDictionary(objects: [NSString(string: "value")], forKeys: [NSString(string:"key")])
             return Box(["collection": Set([object])])
         }()
-        #if !os(Linux) // issue https://bugs.swift.org/browse/SR-2486
-            //TODO: remove this ifdef once the issue is resolved
         boxedNSSet = {
             let set = NSMutableSet()
             set.add(["key": "value"])
@@ -99,7 +97,6 @@ class FoundationCollectionTests: XCTestCase {
             data.setObject(set, forKey: NSString(string: "collection"))
             return Box(data)
             }()
-        #endif
         boxedNSOrderedSet = {
             let orderedSet = NSMutableOrderedSet()
             orderedSet.add(["key": "value"])
