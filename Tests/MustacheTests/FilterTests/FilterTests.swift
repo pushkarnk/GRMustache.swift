@@ -46,8 +46,8 @@ class FilterTests: XCTestCase {
             ("testFilterOfOptionalString", testFilterOfOptionalString),
             ("testFilterCanThrowMustacheError", testFilterCanThrowMustacheError),
             ("testFilterCanThrowCustomError", testFilterCanThrowCustomError),
-        ] + (TestConfiguration.sharedInstance.nsErrorTestsEnabled ?
-            [("testFilterCanThrowCustomNSError", testFilterCanThrowCustomNSError)] : [(String, (FilterTests) -> () throws -> Void)]())
+	    ("testFilterCanThrowCustomNSError", testFilterCanThrowCustomNSError)
+        ]
     }
 
     enum CustomError : Error {

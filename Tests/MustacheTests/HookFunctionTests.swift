@@ -41,10 +41,8 @@ class HookFunctionTests: XCTestCase {
             ("testHookFunctionsOrdering", testHookFunctionsOrdering),
             ("testArrayOfWillRenderFunctionsInSectionTag", testArrayOfWillRenderFunctionsInSectionTag),
             ("testWillRenderFunctionCanProcessRenderFunction", testWillRenderFunctionCanProcessRenderFunction),
-        ] + (TestConfiguration.sharedInstance.nsErrorTestsEnabled ?
-            [("testDidRenderFunctionObservesRenderingNSError", testDidRenderFunctionObservesRenderingNSError)] :
-             [(String, (HookFunctionTests) -> () throws -> Void)]())
-
+	    ("testDidRenderFunctionObservesRenderingNSError", testDidRenderFunctionObservesRenderingNSError)
+	    ]
     }
 
     enum CustomError : Error {

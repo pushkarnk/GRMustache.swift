@@ -17,6 +17,5 @@
 // This class is called TestConfigurationProtocol to distinguish it from
 // TestConfiguration class
 protocol TestConfigurationProtocol {
-    var nsErrorTestsEnabled: Bool { get }
     var localizerTestsEnabled: Bool { get }
 }
