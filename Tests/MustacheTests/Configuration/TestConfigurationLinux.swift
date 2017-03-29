@@ -25,10 +25,4 @@ class TestConfigurationLinux: TestConfigurationProtocol {
         //TODO: return true once the issue is resolved
         return false
     }
-    var caretNewLineTestsEnabled: Bool {
-        // Tests that involve caret and new line in a string "\r\n" are disabled due to
-        //     issue https://bugs.swift.org/browse/SR-2486
-        //TODO: return true once the issue is resolved
-        return false
-    }
 }
