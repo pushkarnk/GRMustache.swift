@@ -281,8 +281,11 @@ class HookFunctionTests: XCTestCase {
         } catch let error as NSError {
             XCTAssertEqual(error.domain, "TagObserverError")
             XCTAssertEqual(error.code, 1)
-        }
-        XCTAssertTrue(failedRendering)
+        } catch {
+	    XCTFail("Expected NSError")
+	}
+
+	XCTAssertTrue(failedRendering)
     }
 
     func testDidRenderFunctionObservesRenderingCustomError() {

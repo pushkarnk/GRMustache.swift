@@ -90,6 +90,8 @@ class TemplateRepositoryDataSourceTests: XCTestCase {
             XCTAssert(false)
         } catch let error as NSError {
             XCTAssertEqual(error.domain, "CustomNSError")
+        } catch {
+	    XCTFail("Did not catch NSError")
         }
 
         do {

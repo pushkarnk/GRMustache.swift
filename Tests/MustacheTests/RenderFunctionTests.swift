@@ -165,7 +165,9 @@ class RenderFunctionTests: XCTestCase {
             XCTAssert(false)
         } catch let error as NSError {
             XCTAssertEqual(error.domain, errorDomain)
-        }
+        } catch {
+	    XCTFail("Expected NSError")
+	}
     }
 
     func testRenderFunctionCanThrowCustomErrorFromVariableTag() {
@@ -192,7 +194,9 @@ class RenderFunctionTests: XCTestCase {
             XCTAssert(false)
         } catch let error as NSError {
             XCTAssertEqual(error.domain, errorDomain)
-        }
+        } catch {
+            XCTFail("Expected NSError")
+	}
     }
 
     func testRenderFunctionCanThrowCustomErrorFromSectionTag() {
