@@ -351,7 +351,8 @@ class FilterTests: XCTestCase {
             XCTFail("Expected MustacheError")
         } catch let error as MustacheError {
             XCTAssertEqual(error.kind, MustacheError.Kind.RenderError)
-            if let nserror = error.underlyingError as? NSError {
+            if let error = error.underlyingError {
+                let nserror = error as NSError
                 XCTAssertEqual(nserror.domain, "CustomErrorDomain")
             } else {
                 XCTFail("Expected NSError")
