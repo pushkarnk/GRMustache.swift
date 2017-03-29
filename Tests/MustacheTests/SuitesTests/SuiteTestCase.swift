@@ -65,7 +65,7 @@ class SuiteTestCase: XCTestCase {
         let testBundle = FoundationAdapter.getBundle(for: type(of: self))
 
         guard let path = testBundle.path(forResource: name, ofType: nil, inDirectory: directory) else {
-            print("bundle resource path is \(testBundle.resourcePath)")
+            print("bundle resource path is \(String(describing: testBundle.resourcePath))")
             XCTFail("No such test suite \(directory)/\(name)")
             return
         }
