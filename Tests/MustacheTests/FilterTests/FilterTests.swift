@@ -24,6 +24,7 @@
 import XCTest
 import Mustache
 import Foundation
+import Bridging
 
 class FilterTests: XCTestCase {
 
@@ -351,7 +352,7 @@ class FilterTests: XCTestCase {
             XCTFail("Expected MustacheError")
         } catch let error as MustacheError {
             XCTAssertEqual(error.kind, MustacheError.Kind.RenderError)
-            if let nserror = error.underlyingError as? NSError {
+            if let nserror = FoundationAdapter.getNSError(from: error.underlyingError) {
                 XCTAssertEqual(nserror.domain, "CustomErrorDomain")
             } else {
                 XCTFail("Expected NSError")
