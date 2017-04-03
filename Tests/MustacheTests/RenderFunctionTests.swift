@@ -29,7 +29,7 @@ class RenderFunctionTests: XCTestCase {
 
     // allTests required for Swift 3.0
     static var allTests : [(String, (RenderFunctionTests) -> () throws -> Void)] {
-        var tests: [(String, (RenderFunctionTests) -> () throws -> Void)] = [
+        return [
             ("testRenderFunctionInVariableTag", testRenderFunctionInVariableTag),
             ("testRenderFunctionInSectionTag", testRenderFunctionInSectionTag),
             ("testRenderFunctionInInvertedSectionTag", testRenderFunctionInInvertedSectionTag),
@@ -71,12 +71,9 @@ class RenderFunctionTests: XCTestCase {
             ("testDynamicPartialIsNotHTMLEscaped", testDynamicPartialIsNotHTMLEscaped),
             ("testDynamicPartialOverride", testDynamicPartialOverride),
             ("testArrayOfRenderFunctionsInSectionTagDoesNotNeedExplicitInvocation", testArrayOfRenderFunctionsInSectionTagDoesNotNeedExplicitInvocation),
-        ]
-        if TestConfiguration.sharedInstance.nsErrorTestsEnabled {
-            tests.append(("testRenderFunctionCanThrowNSErrorFromVariableTag", testRenderFunctionCanThrowNSErrorFromVariableTag))
-            tests.append(("testRenderFunctionCanThrowNSErrorFromSectionTag", testRenderFunctionCanThrowNSErrorFromSectionTag))
-         }
-        return tests
+	    ("testRenderFunctionCanThrowNSErrorFromVariableTag", testRenderFunctionCanThrowNSErrorFromVariableTag),
+	    ("testRenderFunctionCanThrowNSErrorFromSectionTag", testRenderFunctionCanThrowNSErrorFromSectionTag)
+	    ]
     }
 
     enum CustomError : Error {
@@ -165,7 +162,9 @@ class RenderFunctionTests: XCTestCase {
             XCTAssert(false)
         } catch let error as NSError {
             XCTAssertEqual(error.domain, errorDomain)
-        }
+        } catch {
+	    XCTFail("Expected NSError")
+	}
     }
 
     func testRenderFunctionCanThrowCustomErrorFromVariableTag() {
@@ -192,7 +191,9 @@ class RenderFunctionTests: XCTestCase {
             XCTAssert(false)
         } catch let error as NSError {
             XCTAssertEqual(error.domain, errorDomain)
-        }
+        } catch {
+            XCTFail("Expected NSError")
+	}
     }
 
     func testRenderFunctionCanThrowCustomErrorFromSectionTag() {

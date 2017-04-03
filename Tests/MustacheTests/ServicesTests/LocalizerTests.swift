@@ -30,7 +30,6 @@ class LocalizerTests: XCTestCase {
 
     // allTests required for Swift 3.0
     static var allTests : [(String, (LocalizerTests) -> () throws -> Void)] {
-        if TestConfiguration.sharedInstance.localizerTestsEnabled {
             return [
                 ("testLocalizableBundle", testLocalizableBundle),
                 ("testLocalizer", testLocalizer),
@@ -44,8 +43,6 @@ class LocalizerTests: XCTestCase {
                 ("testLocalizerRendersHTMLEscapedValuesOfHTMLTemplates", testLocalizerRendersHTMLEscapedValuesOfHTMLTemplates),
                 ("testLocalizerRendersUnescapedValuesOfTextTemplates", testLocalizerRendersUnescapedValuesOfTextTemplates),
             ]
-        }
-        return []
     }
 
     lazy var localizableBundle: Bundle =

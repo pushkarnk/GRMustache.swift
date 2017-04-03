@@ -41,10 +41,8 @@ class HookFunctionTests: XCTestCase {
             ("testHookFunctionsOrdering", testHookFunctionsOrdering),
             ("testArrayOfWillRenderFunctionsInSectionTag", testArrayOfWillRenderFunctionsInSectionTag),
             ("testWillRenderFunctionCanProcessRenderFunction", testWillRenderFunctionCanProcessRenderFunction),
-        ] + (TestConfiguration.sharedInstance.nsErrorTestsEnabled ?
-            [("testDidRenderFunctionObservesRenderingNSError", testDidRenderFunctionObservesRenderingNSError)] :
-             [(String, (HookFunctionTests) -> () throws -> Void)]())
-
+	    ("testDidRenderFunctionObservesRenderingNSError", testDidRenderFunctionObservesRenderingNSError)
+	    ]
     }
 
     enum CustomError : Error {
@@ -281,8 +279,11 @@ class HookFunctionTests: XCTestCase {
         } catch let error as NSError {
             XCTAssertEqual(error.domain, "TagObserverError")
             XCTAssertEqual(error.code, 1)
-        }
-        XCTAssertTrue(failedRendering)
+        } catch {
+	    XCTFail("Expected NSError")
+	}
+
+	XCTAssertTrue(failedRendering)
     }
 
     func testDidRenderFunctionObservesRenderingCustomError() {

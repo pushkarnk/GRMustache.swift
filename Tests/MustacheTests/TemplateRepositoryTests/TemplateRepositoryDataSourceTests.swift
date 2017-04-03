@@ -29,9 +29,7 @@ class TemplateRepositoryDataSourceTests: XCTestCase {
 
     //allTests required for Swift 3.0
     static var allTests : [(String, (TemplateRepositoryDataSourceTests) -> () throws -> Void)] {
-        return (TestConfiguration.sharedInstance.nsErrorTestsEnabled ?
-               [("testTemplateRepositoryDataSource", testTemplateRepositoryDataSource)] :
-                [(String, (TemplateRepositoryDataSourceTests) -> () throws -> Void)]())
+        return [("testTemplateRepositoryDataSource", testTemplateRepositoryDataSource)]
     }
 
     enum CustomError : Error {
@@ -90,6 +88,8 @@ class TemplateRepositoryDataSourceTests: XCTestCase {
             XCTAssert(false)
         } catch let error as NSError {
             XCTAssertEqual(error.domain, "CustomNSError")
+        } catch {
+	    XCTFail("Did not catch NSError")
         }
 
         do {

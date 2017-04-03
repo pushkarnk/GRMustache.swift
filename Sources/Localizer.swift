@@ -258,13 +258,51 @@ extension StandardLibrary {
 
         private func string(withFormat format: String, argumentsArray args:[String]) -> String {
             #if os(Linux) // see issue https://bugs.swift.org/browse/SR-957
-                // before the issue is resolved - manually replace %@ string one by one by NSLocalizedString
-                //TODO remove this ifdef once the feature is implemented
-                if args.count == 0 {
-                    return format
-                }
-                fatalError("GRMustache.swift, Localizer.swift:\(#line) Not implemented: String(format, locale, args)")
-            #else
+	    // before the issue is resolved - manually replace %@ strings one by one
+            // handle %% sequences
+            //TODO remove this ifdef once the feature is implemented
+		var result = ""
+
+		let appendCharacter = { (character: Character) in
+		    result += String(character)
+		}
+		let appendArgument = { (argument: String?) in
+		    result += (argument ?? "")
+		}
+
+		var indices = format.characters.indices
+		var args = Array(args.reversed())
+
+		while indices.count > 0 {
+		    guard let currentIndex = indices.popFirst() else {
+                        continue
+		    }
+		    let currentCharacter = format[currentIndex]
+		    guard currentCharacter == "%" && indices.count > 0 else {
+                        appendCharacter(currentCharacter)
+			continue
+		    }
+
+		    guard let nextIndex = indices.popFirst() else {
+                        continue
+		    }
+		    let nextCharacter = format[nextIndex]
+
+		    guard nextCharacter != "%" else {
+                        appendCharacter("%") // one % instead of %%
+                        continue
+		    }
+
+		    guard nextCharacter == "@" else {
+                        appendCharacter(nextCharacter)
+                        continue
+		    }
+
+		    appendArgument(args.popLast())
+		}
+
+		return result
+	    #else
             let nsargs = args.map({$0 as NSString})
             switch nsargs.count {
             case 0:
