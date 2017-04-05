@@ -1819,7 +1819,7 @@ extension Date : MustacheBoxable {
                         // {{# dates }}...{{/ dates }}
                         return try info.tag.render(with: info.context.extendedContext(by: Box(self)))
                     } else {
-                        // {{# double }}...{{/ double }}
+                        // {{# date }}...{{/ date }}
                         //
                         // Dates do not enter the context stack when used in a
                         // boolean section.
