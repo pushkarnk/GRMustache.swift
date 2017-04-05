@@ -339,7 +339,10 @@ class FormatterTests: XCTestCase {
         let dateFormatter = DateFormatter()
         dateFormatter.dateStyle = .medium
         let date = NSDate()
-        let expectedDateRendering = dateFormatter.string(from: date)
+        guard let expectedDateRendering = dateFormatter.string(for: date) else {
+            XCTFail("failed to format date \(date)")
+            return
+        }
 
         let box = Box(["format": Box(dateFormatter), "value": date])
 
