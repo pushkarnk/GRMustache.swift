@@ -48,6 +48,8 @@ class FormatterTests: XCTestCase {
             ("testDateFormatterRendersNothingForNSNull", testDateFormatterRendersNothingForNSNull),
             ("testDateFormatterRendersNothingForNSString", testDateFormatterRendersNothingForNSString),
             ("testDateFormatterRendersNothingForNSNumber", testDateFormatterRendersNothingForNSNumber),
+            ("testDateFormatterForDate", testDateFormatterForDate),
+            ("testDateFormatterForNSDate", testDateFormatterForNSDate),
         ]
     }
 
@@ -317,5 +319,33 @@ class FormatterTests: XCTestCase {
         template = try! Template(string: "{{#format(value)}}YES{{/}}{{^format(value)}}NO{{/}}")
         rendering = try! template.render(with: box)
         XCTAssertEqual(rendering, "NO")
+    }
+
+    func testDateFormatterForDate() {
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateStyle = .medium
+        let date = Date()
+        let expectedDateRendering = dateFormatter.string(from: date)
+
+        let box = Box(["format": Box(dateFormatter), "value": date])
+
+        let template = try! Template(string: "<{{format(value)}}>")
+        let rendering = try! template.render(with: box)
+        XCTAssertEqual(rendering, "<\(expectedDateRendering)>")
+    }
+
+    func testDateFormatterForNSDate() {
+        #if !os(Linux) // NSDate cannot be formatter by DateFormatter on Linux
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateStyle = .medium
+        let date = NSDate()
+        let expectedDateRendering = dateFormatter.string(from: date)
+
+        let box = Box(["format": Box(dateFormatter), "value": date])
+
+        let template = try! Template(string: "<{{format(value)}}>")
+        let rendering = try! template.render(with: box)
+        XCTAssertEqual(rendering, "<\(expectedDateRendering)>")
+        #endif
     }
 }
