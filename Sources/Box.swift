@@ -1783,6 +1783,57 @@ public func Box(_ didRender: @escaping DidRenderFunction) -> MustacheBox {
 }
 
 /**
+GRMustache provides built-in support for rendering `Date`.
+*/
+
+extension Date : MustacheBoxable {
+
+    /**
+    `Date` adopts the `MustacheBoxable` protocol so that it can feed Mustache
+    templates.
+
+    You should not directly call the `mustacheBox` property. Always use the
+    `Box()` function instead:
+
+        3.14.mustacheBox   // Valid, but discouraged
+        Box(3.14)          // Preferred
+
+
+    ### Rendering
+
+    - `{{date}}` is rendered with built-in Swift String Interpolation.
+      Custom formatting can be explicitly required with DateFormatter, as in
+      `{{format(a)}}` (see `Formatter`).
+    */
+    public var mustacheBox: MustacheBox {
+        return MustacheBox(
+            value: self,
+            boolValue: nil,
+            render: { (info: RenderingInfo) in
+                switch info.tag.type {
+                case .Variable:
+                    // {{ date }}
+                    return Rendering("\(self)")
+                case .Section:
+                    if info.enumerationItem {
+                        // {{# dates }}...{{/ dates }}
+                        return try info.tag.render(with: info.context.extendedContext(by: Box(self)))
+                    } else {
+                        // {{# double }}...{{/ double }}
+                        //
+                        // Dates do not enter the context stack when used in a
+                        // boolean section.
+                        //
+                        // This behavior must not change:
+                        // https://github.com/groue/GRMustache/issues/83
+                        return try info.tag.render(with: info.context)
+                    }
+                }
+        })
+    }
+}
+
+/**
 The empty box, the box that represents missing values.
 */
 public func Box() -> MustacheBox {
