@@ -23,10 +23,9 @@
 
 
 import XCTest
-import Mustache
+@testable import Mustache
 import Foundation
 import SwiftyJSON
-import Bridging
 
 extension JSON: MustacheBoxable {
     public var mustacheBox: MustacheBox {
