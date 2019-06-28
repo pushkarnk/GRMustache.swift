@@ -148,7 +148,6 @@ final public class Context {
                 return box
             }
         }
-        
         switch type {
         case .root:
             return EmptyBox

@@ -246,33 +246,80 @@ extension StandardLibrary {
         }
         
         private func stringWithFormat(format: String, argumentsArray args:[String]) -> String {
-            switch args.count {
-            case 0:
-                return String(format: format)
-            case 1:
-                return String(format: format, args[0])
-            case 2:
-                return String(format: format, args[0], args[1])
-            case 3:
-                return String(format: format, args[0], args[1], args[2])
-            case 4:
-                return String(format: format, args[0], args[1], args[2], args[3])
-            case 5:
-                return String(format: format, args[0], args[1], args[2], args[3], args[4])
-            case 6:
-                return String(format: format, args[0], args[1], args[2], args[3], args[4], args[5])
-            case 7:
-                return String(format: format, args[0], args[1], args[2], args[3], args[4], args[5], args[6])
-            case 8:
-                return String(format: format, args[0], args[1], args[2], args[3], args[4], args[5], args[6], args[7])
-            case 9:
-                return String(format: format, args[0], args[1], args[2], args[3], args[4], args[5], args[6], args[7], args[8])
-            case 10:
-                return String(format: format, args[0], args[1], args[2], args[3], args[4], args[5], args[6], args[7], args[8], args[9])
-            default:
-                fatalError("Not implemented: format with \(args.count) parameters")
-            }
+            #if os(Linux) // see issue https://bugs.swift.org/browse/SR-957
+	        // before the issue is resolved - manually replace %@ strings one by one
+            // handle %% sequences
+            //TODO remove this ifdef once the feature is implemented
+		    var result = ""
+
+		    let appendCharacter = { (character: Character) in
+		        result += String(character)
+		    }
+		    let appendArgument = { (argument: String?) in
+		        result += (argument ?? "")
+		    }
+
+		    var indices = format.indices
+	 	    var args = Array(args.reversed())
+
+		    while indices.count > 0 {
+		        guard let currentIndex = indices.popFirst() else {
+                    continue
+		        }
+		        let currentCharacter = format[currentIndex]
+		        guard currentCharacter == "%" && indices.count > 0 else {
+                    appendCharacter(currentCharacter)
+			    continue
+		    }
+
+		    guard let nextIndex = indices.popFirst() else {
+                continue
+		    }
+		    let nextCharacter = format[nextIndex]
+
+		    guard nextCharacter != "%" else {
+                appendCharacter("%") // one % instead of %%
+                continue
+		    }
+
+		    guard nextCharacter == "@" else {
+                appendCharacter(nextCharacter)
+                continue
+		    }
+
+		    appendArgument(args.popLast())
+		}
+
+		return result
+	    #else
+        switch args.count {
+        case 0:
+            return String(format: format)
+        case 1:
+            return String(format: format, args[0])
+        case 2:
+            return String(format: format, args[0], args[1])
+        case 3:
+            return String(format: format, args[0], args[1], args[2])
+        case 4:
+            return String(format: format, args[0], args[1], args[2], args[3])
+        case 5:
+            return String(format: format, args[0], args[1], args[2], args[3], args[4])
+        case 6:
+            return String(format: format, args[0], args[1], args[2], args[3], args[4], args[5])
+        case 7:
+            return String(format: format, args[0], args[1], args[2], args[3], args[4], args[5], args[6])
+        case 8:
+            return String(format: format, args[0], args[1], args[2], args[3], args[4], args[5], args[6], args[7])
+        case 9:
+            return String(format: format, args[0], args[1], args[2], args[3], args[4], args[5], args[6], args[7], args[8])
+        case 10:
+            return String(format: format, args[0], args[1], args[2], args[3], args[4], args[5], args[6], args[7], args[8], args[9])
+        default:
+            fatalError("Not implemented: format with \(args.count) parameters")
         }
+        #endif
+    }
         
         struct Placeholder {
             static let string = "GRMustacheLocalizerValuePlaceholder"

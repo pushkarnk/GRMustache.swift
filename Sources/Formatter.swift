@@ -23,7 +23,7 @@
 
 import Foundation
 
-
+#if !os(Linux)
 /// Formatter can format template values.
 @objc extension Formatter {
     
@@ -136,3 +136,4 @@ import Foundation
         })
     }
 }
+#endif

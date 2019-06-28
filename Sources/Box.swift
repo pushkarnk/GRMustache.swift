@@ -68,6 +68,7 @@ public protocol MustacheBoxable {
     var mustacheBox: MustacheBox { get }
 }
 
+#if !os(Linux)
 @objc extension MustacheBox {
     
     /// `MustacheBox` adopts the `MustacheBoxable` protocol so that it can feed
@@ -76,6 +77,7 @@ public protocol MustacheBoxable {
         return self
     }
 }
+#endif
 
 
 /// Returns a MustacheBox that allows *value* to feed Mustache templates.
@@ -204,7 +206,6 @@ public func Box(_ value: Any?) -> MustacheBox {
     guard let value = value else {
         return EmptyBox
     }
-    
     switch value {
     case let boxable as MustacheBoxable:
         return boxable.mustacheBox
@@ -225,7 +226,11 @@ public func Box(_ value: Any?) -> MustacheBox {
     case let f as KeyedSubscriptFunction:
         return MustacheBox(keyedSubscript: f)
     default:
-        NSLog("%@", "Mustache warning: \(String(reflecting: value)) of type \(type(of: value)) is not MustacheBoxable, Array, Set, Dictionary, and is discarded.")
+#if os(Linux)
+        NSLog("Mustache warning: \(String(reflecting: value)) of type \(type(of: value)) is not MustacheBoxable, Array, Set, Dictionary, and is discarded.")
+#else
+        NSLog("@", "Mustache warning: \(String(reflecting: value)) of type \(type(of: value)) is not MustacheBoxable, Array, Set    , Dictionary, and is discarded.")
+#endif
         return EmptyBox
     }
 }

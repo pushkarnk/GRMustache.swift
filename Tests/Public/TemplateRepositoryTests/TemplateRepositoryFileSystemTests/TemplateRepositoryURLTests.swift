@@ -22,12 +22,12 @@
 
 
 import XCTest
-import Mustache
+@testable import Mustache
 
 class TemplateRepositoryURLTests: XCTestCase {
     
     func testTemplateRepositoryWithURL() {
-        let testBundle = Bundle(for: type(of: self))
+        let testBundle = FoundationAdapter.getBundle(for: type(of: self))
         let URL = testBundle.url(forResource: "TemplateRepositoryFileSystemTests_UTF8", withExtension: nil)!
         let repo = TemplateRepository(baseURL: URL)
         var template: Template
@@ -57,7 +57,7 @@ class TemplateRepositoryURLTests: XCTestCase {
     }
     
     func testTemplateRepositoryWithURLTemplateExtensionEncoding() {
-        let testBundle = Bundle(for: type(of: self))
+        let testBundle = FoundationAdapter.getBundle(for: type(of: self))
         var URL: Foundation.URL
         var repo: TemplateRepository
         var template: Template
@@ -101,7 +101,7 @@ class TemplateRepositoryURLTests: XCTestCase {
     }
     
     func testAbsolutePartialName() {
-        let testBundle = Bundle(for: type(of: self))
+        let testBundle = FoundationAdapter.getBundle(for: type(of: self))
         let URL = testBundle.url(forResource: "TemplateRepositoryFileSystemTests", withExtension: nil)!
         let repo = TemplateRepository(baseURL: URL)
         let template = try! repo.template(named: "base")
@@ -110,7 +110,7 @@ class TemplateRepositoryURLTests: XCTestCase {
     }
     
     func testPartialNameCanNotEscapeTemplateRepositoryRootURL() {
-        let testBundle = Bundle(for: type(of: self))
+        let testBundle = FoundationAdapter.getBundle(for: type(of: self))
         let URL = testBundle.url(forResource: "TemplateRepositoryFileSystemTests", withExtension: nil)!
         let repo = TemplateRepository(baseURL: URL.appendingPathComponent("partials"))
         

@@ -34,12 +34,10 @@ struct ExpressionInvocation {
         switch expression {
         case .implicitIterator:
             // {{ . }}
-            
             return context.topBox
             
         case .identifier(let identifier):
             // {{ identifier }}
-            
             return context.mustacheBox(forKey: identifier)
 
         case .scoped(let baseExpression, let identifier):

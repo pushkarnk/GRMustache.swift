@@ -494,9 +494,7 @@ final public class MustacheBox : NSObject {
             self.dictionaryValue = dictionaryValue ?? { nil }
         }
     }
-}
 
-extension MustacheBox {
     /// A textual representation of `self`.
     override public var description: String {
         let facets = self.facetsDescriptions
@@ -506,8 +504,8 @@ extension MustacheBox {
         default:
             let content = facets.joined(separator: ",")
             return "MustacheBox(\(content))"
-        }
-    }
+        }   
+    } 
 }
 
 extension MustacheBox {

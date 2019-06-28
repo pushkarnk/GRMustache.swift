@@ -60,7 +60,6 @@ final class RenderingEngine {
         if templateAST.contentType == targetContentType
         {
             // Content-type match
-            
             for node in templateAST.nodes {
                 try renderNode(node, inContext: context)
             }
@@ -130,12 +129,12 @@ final class RenderingEngine {
     fileprivate func renderTag(_ tag: LocatedTag, escapesHTML: Bool, inverted: Bool, expression: Expression, inContext context: Context) throws {
         
         // 1. Evaluate expression
-        
         var box: MustacheBox
 
         do {
             box = try ExpressionInvocation(expression: expression).invokeWithContext(context)
         } catch let error as MustacheError {
+            print("error")
             let newMessage: String
             if let oldMessage = error.message {
                 newMessage = "Could not evaluate \(tag): \(oldMessage)"

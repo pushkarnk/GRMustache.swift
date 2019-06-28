@@ -14,6 +14,11 @@ let package = Package(
         .target(
             name: "Mustache",
             dependencies: [],
-            path: "Sources")
+            path: "Sources"
+        ),
+        .testTarget(
+            name: "MustacheTests",
+            dependencies: ["Mustache"]
+        ),
     ]
-) 
+)

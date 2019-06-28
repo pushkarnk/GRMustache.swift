@@ -22,7 +22,7 @@
 
 
 import XCTest
-import Mustache
+@testable import Mustache
 
 class MustacheRenderableGuideTests: XCTestCase {
     
@@ -123,7 +123,7 @@ class MustacheRenderableGuideTests: XCTestCase {
                     }
                 }
                 let render = { (info: RenderingInfo) -> Rendering in
-                    let template = try! Template(named: "Person", bundle: Bundle(for: MustacheRenderableGuideTests.self))
+                    let template = try! Template(named: "Person", bundle: FoundationAdapter.getBundle(for: MustacheRenderableGuideTests.self))
                     let context = info.context.extendedContext(self)
                     return try template.render(context)
                 }
@@ -149,7 +149,7 @@ class MustacheRenderableGuideTests: XCTestCase {
                     }
                 }
                 let render = { (info: RenderingInfo) -> Rendering in
-                    let template = try! Template(named: "Movie", bundle: Bundle(for: MustacheRenderableGuideTests.self))
+                    let template = try! Template(named: "Movie", bundle: FoundationAdapter.getBundle(for: MustacheRenderableGuideTests.self))
                     let context = info.context.extendedContext(self)
                     return try template.render(context)
                 }

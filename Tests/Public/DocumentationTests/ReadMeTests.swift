@@ -22,7 +22,8 @@
 
 
 import XCTest
-import Mustache
+@testable import Mustache
+
 fileprivate func < <T : Comparable>(lhs: T?, rhs: T?) -> Bool {
   switch (lhs, rhs) {
   case let (l?, r?):
@@ -52,7 +53,7 @@ class ReadMeTests: XCTestCase {
     }
     
     func testReadmeExample1() {
-        let testBundle = Bundle(for: type(of: self))
+        let testBundle = FoundationAdapter.getBundle(for: type(of: self))
         let template = try! Template(named: "ReadMeExample1", bundle: testBundle)
         let data: [String: Any] = [
             "name": "Chris",
@@ -88,7 +89,7 @@ class ReadMeTests: XCTestCase {
         
         // I have 3 cats.
         
-        let testBundle = Bundle(for: type(of: self))
+        let testBundle = FoundationAdapter.getBundle(for: type(of: self))
         let template = try! Template(named: "ReadMeExample2", bundle: testBundle)
         let data = ["cats": ["Kitty", "Pussy", "Melba"]]
         let rendering = try! template.render(data)

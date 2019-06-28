@@ -34,13 +34,13 @@ class EachFilterTests: XCTestCase {
         XCTAssertTrue(["(0,a)(1,b)", "(0,b)(1,a)"].firstIndex(of: rendering) != nil)
     }
     
-    func testEachFilterEnumeratesNSSet() {
+    /*func testEachFilterEnumeratesNSSet() {
         let set = NSSet(objects: "a", "b")
         let template = try! Template(string: "{{#each(set)}}({{@index}},{{.}}){{/}}")
         template.register(StandardLibrary.each, forKey: "each")
         let rendering = try! template.render(["set": set])
         XCTAssertTrue(["(0,a)(1,b)", "(0,b)(1,a)"].firstIndex(of: rendering) != nil)
-    }
+    }*/
     
     func testEachFilterTriggersRenderFunctionsInArray() {
         let render = { (info: RenderingInfo) -> Rendering in
